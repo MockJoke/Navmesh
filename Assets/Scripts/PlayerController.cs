@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private NavMeshAgent agent;
+    [SerializeField] private ThirdPersonCharacter character;
 
     void Awake()
     {
@@ -16,6 +16,14 @@ public class PlayerController : MonoBehaviour
 
         if (agent == null)
             agent = this.GetComponent<NavMeshAgent>();
+
+        if (character == null)
+            character = this.GetComponent<ThirdPersonCharacter>();
+    }
+
+    void Start()
+    {
+        agent.updateRotation = false;
     }
 
     void Update()
@@ -35,6 +43,15 @@ public class PlayerController : MonoBehaviour
                 // Move our agent
                 agent.SetDestination(hit.point);
             }
+        }
+
+        if (agent.remainingDistance > agent.stoppingDistance)
+        {
+            character.Move(agent.desiredVelocity, false, false);
+        }
+        else
+        {
+            character.Move(Vector3.zero, false, false);
         }
     }
 }
