@@ -15,6 +15,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.2f;
+		[SerializeField] private bool m_playAnimation = true;
 
 		Rigidbody m_Rigidbody;
 		Animator m_Animator;
@@ -72,7 +73,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			PreventStandingInLowHeadroom();
 
 			// send input and other state parameters to the animator
-			UpdateAnimator(move);
+			if (m_playAnimation && m_Animator)
+				UpdateAnimator(move);
 		}
 
 
